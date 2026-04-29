@@ -3,94 +3,319 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DriveMaster - Inscription Auto-École</title>
+    <title>Pro Drive - Inscription Auto-École</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #2563eb;
-            --bg-color: #f8fafc;
+            /* Palette de couleurs inspirée de l'exemple */
+            --bg-dark: #121212; /* Fond très sombre */
+            --bg-card: #1e1e1e; /* Fond des cartes/formulaire */
+            --primary-green: #34d399; /* Vert vif pour les accents et boutons */
+            --text-main: #e5e7eb; /* Gris très clair pour le texte */
+            --text-muted: #9ca3af; /* Gris moyen pour les labels */
+            --border-color: #333;
         }
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); display: flex; justify-content: center; padding: 20px; }
-        .form-container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 100%; max-width: 500px; }
-        h2 { color: var(--primary-color); margin-bottom: 20px; text-align: center; }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .main-wrapper {
+            width: 100%;
+            max-width: 650px;
+            margin-top: 40px;
+        }
+
+        /* --- En-tête de l'application --- */
+        .app-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .brand i {
+            color: var(--primary-green);
+            font-size: 1.4rem;
+        }
+
+        .status-badge {
+            background-color: rgba(52, 211, 153, 0.1);
+            color: var(--primary-green);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* --- Titre principal (Concept Auto-École) --- */
+        .main-title-section {
+            margin-bottom: 40px;
+        }
+
+        .main-title-section h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 0 0 10px 0;
+            line-height: 1.1;
+        }
+
+        .title-primary { color: var(--text-main); }
+        .title-accent { color: var(--primary-green); }
+
+        .main-title-section p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0;
+        }
+
+        /* --- Conteneur du Formulaire (Carte) --- */
+        .form-card {
+            background-color: var(--bg-card);
+            padding: 35px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+
+        .step-title {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .step-title i {
+            color: var(--primary-green);
+        }
+
+        /* --- Étapes --- */
         .step { display: none; }
         .step.active { display: block; }
-        .input-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
-        .buttons { display: flex; justify-content: space-between; margin-top: 20px; }
-        button { padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
-        .btn-next { background: var(--primary-color); color: white; }
-        .btn-prev { background: #e2e8f0; color: #475569; }
-        .progress-bar { height: 8px; background: #e2e8f0; border-radius: 4px; margin-bottom: 30px; }
-        .progress-fill { height: 100%; background: var(--primary-color); width: 33%; transition: 0.3s; border-radius: 4px; }
+
+        /* --- Champs de saisie --- */
+        .input-group { margin-bottom: 20px; }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-green);
+        }
+
+        input::placeholder {
+            color: #555;
+        }
+
+        /* --- Boutons --- */
+        .buttons-container {
+            margin-top: 30px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: background-color 0.2s, transform 0.1s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        button:active { transform: translateY(1px); }
+
+        .btn-next {
+            background-color: var(--primary-green);
+            color: #000; /* Texte noir sur fond vert */
+            width: 100%; /* Large comme dans l'exemple */
+            justify-content: center;
+        }
+
+        .btn-next:hover { background-color: #2fb986; }
+
+        .btn-prev {
+            background-color: #333;
+            color: var(--text-main);
+        }
+
+        .btn-prev:hover { background-color: #444; }
+
+        /* --- Barre de progression --- */
+        .progress-bar-container {
+            height: 4px;
+            background-color: #333;
+            border-radius: 2px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary-green);
+            width: 33%;
+            transition: width 0.3s ease;
+        }
+
     </style>
 </head>
 <body>
 
-<div class="form-container">
-    <h2>DriveMaster App</h2>
-    
-    <div class="progress-bar">
+<div class="main-wrapper">
+    <header class="app-header">
+        <div class="brand">
+            <i class="fas fa-car"></i> <span>Pro Drive</span>
+        </div>
+        <div class="status-badge">● EN LIGNE</div>
+    </header>
+
+    <section class="main-title-section">
+        <h1>
+            <span class="title-primary">Suivi d'</span><br>
+            <span class="title-accent">Apprentissage</span>
+        </h1>
+        <p>Gérez votre parcours de formation, planifiez vos leçons et suivez vos progrès vers le permis de conduire en temps réel.</p>
+    </section>
+
+    <div class="progress-bar-container">
         <div class="progress-fill" id="progressFill"></div>
     </div>
 
-    <form id="registrationForm">
-        <div class="step active" id="step1">
-            <h3>1. Informations Personnelles</h3>
-            <div class="input-group">
-                <label>Nom complet</label>
-                <input type="text" placeholder="Ex: Jean Dupont" required>
-            </div>
-            <div class="input-group">
-                <label>Date de naissance</label>
-                <input type="date" required>
-            </div>
-            <div class="buttons">
-                <span></span>
-                <button type="button" class="btn-next" onclick="nextStep(2)">Suivant</button>
-            </div>
-        </div>
+    <div class="form-card">
+        <form id="registrationForm">
+            
+            <div class="step active" id="step1">
+                <div class="step-title">
+                    <i class="fas fa-user"></i>
+                    <span>1. Profil de l'Élève</span>
+                </div>
+                
+                <div class="input-group">
+                    <label>NOM COMPLET *</label>
+                    <input type="text" placeholder="Ex: Jean-Baptiste KOFFI" required>
+                </div>
+                
+                <div class="input-group">
+                    <label>DATE DE NAISSANCE *</label>
+                    <input type="date" required>
+                </div>
 
-        <div class="step" id="step2">
-            <h3>2. Contact</h3>
-            <div class="input-group">
-                <label>Numéro de téléphone</label>
-                <input type="tel" placeholder="Ex: 0612345678" required>
+                <div class="buttons-container">
+                    <button type="button" class="btn-next" onclick="nextStep(2)">
+                        Étape suivante <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
             </div>
-            <div class="input-group">
-                <label>Adresse email</label>
-                <input type="email" placeholder="email@exemple.com" required>
-            </div>
-            <div class="buttons">
-                <button type="button" class="btn-prev" onclick="nextStep(1)">Précédent</button>
-                <button type="button" class="btn-next" onclick="nextStep(3)">Suivant</button>
-            </div>
-        </div>
 
-        <div class="step" id="step3">
-            <h3>3. Votre Formation</h3>
-            <div class="input-group">
-                <label>Type de permis</label>
-                <select>
-                    <option>Permis B (Voiture)</option>
-                    <option>Permis A (Moto)</option>
-                    <option>Permis C (Poids lourd)</option>
-                </select>
+            <div class="step" id="step2">
+                <div class="step-title">
+                    <i class="fas fa-envelope"></i>
+                    <span>2. Coordonnées de Contact</span>
+                </div>
+                
+                <div class="input-group">
+                    <label>NUMÉRO DE TÉLÉPHONE *</label>
+                    <input type="tel" placeholder="Ex: +225 07 00 00 00" required>
+                </div>
+                
+                <div class="input-group">
+                    <label>ADRESSE EMAIL *</label>
+                    <input type="email" placeholder="votre.email@exemple.com" required>
+                </div>
+                <div class="buttons-container">
+                    <button type="button" class="btn-prev" onclick="nextStep(1)">
+                        <i class="fas fa-arrow-left"></i> Précédent
+                    </button>
+                    <button type="button" class="btn-next" onclick="nextStep(3)">
+                        Étape suivante <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
             </div>
-            <div class="input-group">
-                <label>Type de boîte</label>
-                <select>
-                    <option>Manuelle</option>
-                    <option>Automatique</option>
-                </select>
+
+            <div class="step" id="step3">
+                <div class="step-title">
+                    <i class="fas fa-id-card"></i>
+                    <span>3. Choix de la Formation</span>
+                </div>
+                
+                <div class="input-group">
+                    <label>TYPE DE PERMIS VISÉ *</label>
+                    <select required>
+                        <option value="" disabled selected>Sélectionnez un permis</option>
+                        <option>Permis B (Voiture légère)</option>
+                        <option>Permis A (Moto)</option>
+                        <option>Permis C (Poids lourd)</option>
+                        <option>Permis D (Transport en commun)</option>
+                    </select>
+                </div>
+                
+                <div class="input-group">
+                    <label>TYPE DE BOÎTE DE VITESSE *</label>
+                    <select required>
+                        <option value="" disabled selected>Sélectionnez la boîte</option>
+                        <option>Manuelle</option>
+                        <option>Automatique</option>
+                    </select>
+                </div>
+
+                <div class="buttons-container">
+                    <button type="button" class="btn-prev" onclick="nextStep(2)">
+                        <i class="fas fa-arrow-left"></i> Précédent
+                    </button>
+                    <button type="submit" class="btn-next">
+                        Confirmer l'inscription <i class="fas fa-check"></i>
+                    </button>
+                </div>
             </div>
-            <div class="buttons">
-                <button type="button" class="btn-prev" onclick="nextStep(2)">Précédent</button>
-                <button type="submit" class="btn-next" style="background: #10b981;">Confirmer l'inscription</button>
-            </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
+
 <script>
     function nextStep(step) {
         // Cacher toutes les étapes
@@ -98,14 +323,18 @@
         // Afficher l'étape demandée
         document.getElementById('step' + step).classList.add('active');
         
-        // Mise à jour de la barre de progression
+        // Mise à jour de la barre de progression (3 étapes)
         const progress = (step / 3) * 100;
         document.getElementById('progressFill').style.width = progress + '%';
+        
+        // Remonter en haut de la carte pour la nouvelle étape
+        window.scrollTo(0, 0);
     }
 
+    // Gestion de la soumission finale
     document.getElementById('registrationForm').onsubmit = function(e) {
         e.preventDefault();
-        alert("Inscription envoyée avec succès à DriveMaster !");
+        alert("Félicitations ! Votre demande d'inscription a été envoyée avec succès à Pro Drive. Un conseiller vous contactera sous peu.");
     };
 </script>
 
