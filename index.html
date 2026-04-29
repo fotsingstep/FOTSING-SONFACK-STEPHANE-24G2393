@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DriveMaster - Inscription Auto-École</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --bg-color: #f8fafc;
+        }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); display: flex; justify-content: center; padding: 20px; }
+        .form-container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 100%; max-width: 500px; }
+        h2 { color: var(--primary-color); margin-bottom: 20px; text-align: center; }
+        .step { display: none; }
+        .step.active { display: block; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        .buttons { display: flex; justify-content: space-between; margin-top: 20px; }
+        button { padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .btn-next { background: var(--primary-color); color: white; }
+        .btn-prev { background: #e2e8f0; color: #475569; }
+        .progress-bar { height: 8px; background: #e2e8f0; border-radius: 4px; margin-bottom: 30px; }
+        .progress-fill { height: 100%; background: var(--primary-color); width: 33%; transition: 0.3s; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>DriveMaster App</h2>
+    
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <form id="registrationForm">
+        <div class="step active" id="step1">
+            <h3>1. Informations Personnelles</h3>
+            <div class="input-group">
+                <label>Nom complet</label>
+                <input type="text" placeholder="Ex: Jean Dupont" required>
+            </div>
+            <div class="input-group">
+                <label>Date de naissance</label>
+                <input type="date" required>
+            </div>
+            <div class="buttons">
+                <span></span>
+                <button type="button" class="btn-next" onclick="nextStep(2)">Suivant</button>
+            </div>
+        </div>
+
+        <div class="step" id="step2">
+            <h3>2. Contact</h3>
+            <div class="input-group">
+                <label>Numéro de téléphone</label>
+                <input type="tel" placeholder="Ex: 0612345678" required>
+            </div>
+            <div class="input-group">
+                <label>Adresse email</label>
+                <input type="email" placeholder="email@exemple.com" required>
+            </div>
+            <div class="buttons">
+                <button type="button" class="btn-prev" onclick="nextStep(1)">Précédent</button>
+                <button type="button" class="btn-next" onclick="nextStep(3)">Suivant</button>
+            </div>
+        </div>
+
+        <div class="step" id="step3">
+            <h3>3. Votre Formation</h3>
+            <div class="input-group">
+                <label>Type de permis</label>
+                <select>
+                    <option>Permis B (Voiture)</option>
+                    <option>Permis A (Moto)</option>
+                    <option>Permis C (Poids lourd)</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Type de boîte</label>
+                <select>
+                    <option>Manuelle</option>
+                    <option>Automatique</option>
+                </select>
+            </div>
+            <div class="buttons">
+                <button type="button" class="btn-prev" onclick="nextStep(2)">Précédent</button>
+                <button type="submit" class="btn-next" style="background: #10b981;">Confirmer l'inscription</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    function nextStep(step) {
+        // Cacher toutes les étapes
+        document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+        // Afficher l'étape demandée
+        document.getElementById('step' + step).classList.add('active');
+        
+        // Mise à jour de la barre de progression
+        const progress = (step / 3) * 100;
+        document.getElementById('progressFill').style.width = progress + '%';
+    }
+
+    document.getElementById('registrationForm').onsubmit = function(e) {
+        e.preventDefault();
+        alert("Inscription envoyée avec succès à DriveMaster !");
+    };
+</script>
+
+</body>
+</html>
